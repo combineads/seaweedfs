@@ -210,6 +210,8 @@ func (fh *FileHandle) Release(ctx context.Context, req *fuse.ReleaseRequest) err
 	fh.Lock()
 	defer fh.Unlock()
 
+	fh.f.wfs.handlesLock.Lock()
+	defer fh.f.wfs.handlesLock.Unlock()
 	fh.f.isOpen--
 
 	if fh.f.isOpen <= 0 {
